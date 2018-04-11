@@ -1,0 +1,18 @@
+01: package kr.co.infopub.chapter.s134;
+02: // ¿ªÇà·Ä
+03: public class MatrixMain {
+04: 	public static void main(String[] args) {
+05: 		double [][] basic={{2,3,1},{4,1,-3},{-1,2,2}};
+06: 		double [][] y={{-4},{-2},{2}};
+07: 		Matrix A=new Matrix(basic);
+08: 		A.print();
+09: 		Matrix Y=new Matrix(y);
+10: 		Y.print();
+11: 		Matrix A_1=MatrixUtil.revMatrix(A);
+12: 		A_1.print();
+13: 		Matrix E=MatrixUtil.mulMatrix(A_1, A);
+14: 		E.print();
+15: 		Matrix X=MatrixUtil.mulMatrix(A_1,Y);
+16: 		X.print();
+17: 	}
+18: }

@@ -1,0 +1,167 @@
+001: package kr.co.infopub.chapter.s135;
+002: import java.util.ArrayList;
+003: import java.util.Arrays;
+004: import java.util.Collections;
+005: // ¼ÅÇÃ
+006: public class Sudoku {
+007: 	boolean isShuffle=true;
+008: 	double [][] sdoku;
+009: 	double [][] basic;
+010: 	int n;
+011: 	public Sudoku(int n) {
+012: 		this.n=n;
+013: 		sdoku=new double[n*n][n*n];
+014: 		basic=new double[n][n];
+015: 	}
+016: 	public Sudoku() {
+017: 		this(3);
+018: 	}
+019: 	private void clear(){
+020: 		int m=sdoku.length;
+021: 		for (int i = 0; i < m; i++) {
+022: 			Arrays.fill(sdoku[i], 0);
+023: 		}
+024: 	}
+025: 	
+026: 	public boolean isShuffle() {
+027: 		return isShuffle;
+028: 	}
+029: 	public void setShuffle(boolean isShuffle) {
+030: 		this.isShuffle = isShuffle;
+031: 	}
+032: 	public void init(){
+033: 		for (int i = 0; i < n; i++) {
+034: 			for (int j = 0; j <n; j++) {
+035: 				basic[i][j]=i*n+j+1;
+036: 				sdoku[i][j]=basic[i][j];
+037: 			}
+038: 		}
+039: 	}
+040: 	public void shuffle(){
+041: 		if(isShuffle()){
+042: 			Matrix msdo=MatrixUtil.toTwoOne(new Matrix(basic));
+043: 			double[][]mms=msdo.getMatrix();//1x9
+044: 			ArrayList<Double> list=new ArrayList<Double>();
+045: 			for (int i = 0; i < mms[0].length; i++) {
+046: 				list.add(mms[0][i]);
+047: 			}
+048: 			Collections.shuffle(list);
+049: 			for (int i = 0; i < mms[0].length; i++) {
+050: 				mms[0][i]=list.get(i);
+051: 			}
+052: 			msdo=MatrixUtil.toOneTwo(new Matrix(mms),n,n);
+053: 			basic=msdo.getMatrix();
+054: 			for (int i = 0; i < n; i++) {
+055: 				for (int j = 0; j <n; j++) {
+056: 					sdoku[i][j]=basic[i][j];
+057: 				}
+058: 			}
+059: 		}
+060: 	}
+061: 	public void make(){
+062: 		clear();
+063: 		init();
+064: 		shuffle();
+065: 		makeS1();
+066: 		makeS2();
+067: 		makeS3();
+068: 		makeS4();
+069: 		makeS5();
+070: 		makeS6();
+071: 		makeS7();
+072: 		makeS8();
+073: 	}
+074: 	private double [][] x2={{0,1,0},{0,0,1},{1,0,0}};
+075: 	private double [][] x1={{0,0,1},{1,0,0},{0,1,0}};
+076: 	public void makeS1(){
+077: 		Matrix s0=new Matrix(basic);
+078: 		Matrix s1=MatrixUtil.mulMatrix( new Matrix(x2),s0);
+079: 		for (int i = 0; i < n; i++) {
+080: 			for (int j =0; j <n; j++) {
+081: 				sdoku[i][j+n]=s1.getMatrix()[i][j];
+082: 			}
+083: 		}
+084: 	}
+085: 	public void makeS2(){
+086: 		Matrix s0=new Matrix(basic);
+087: 		Matrix s2=MatrixUtil.mulMatrix( new Matrix(x1),s0);
+088: 		for (int i = 0; i < n; i++) {
+089: 			for (int j =0; j <n; j++) {
+090: 				sdoku[i][j+2*n]=s2.getMatrix()[i][j];
+091: 			}
+092: 		}
+093: 	}
+094: 	public void makeS3(){
+095: 		Matrix s0=new Matrix(basic);
+096: 		Matrix s3=MatrixUtil.mulMatrix( s0,new Matrix(x1));
+097: 		for (int i = 0; i < n; i++) {
+098: 			for (int j =0; j <n; j++) {
+099: 				sdoku[i+n][j]=s3.getMatrix()[i][j];
+100: 			}
+101: 		}
+102: 	}
+103: 	public void makeS4(){
+104: 		Matrix s0=new Matrix(basic);
+105: 		Matrix s1=MatrixUtil.mulMatrix( new Matrix(x2),s0);
+106: 		Matrix s4=MatrixUtil.mulMatrix( s1,new Matrix(x1));
+107: 		for (int i = 0; i < n; i++) {
+108: 			for (int j =0; j <n; j++) {
+109: 				sdoku[i+n][j+n]=s4.getMatrix()[i][j];
+110: 			}
+111: 		}
+112: 	}
+113: 	public void makeS5(){
+114: 		Matrix s0=new Matrix(basic);
+115: 		Matrix s1=MatrixUtil.mulMatrix( new Matrix(x1),s0);
+116: 		Matrix s5=MatrixUtil.mulMatrix( s1,new Matrix(x1));
+117: 		for (int i = 0; i < n; i++) {
+118: 			for (int j =0; j <n; j++) {
+119: 				sdoku[i+n][j+2*n]=s5.getMatrix()[i][j];
+120: 			}
+121: 		}
+122: 	}
+123: 	public void makeS6(){
+124: 		Matrix s0=new Matrix(basic);
+125: 		Matrix s6=MatrixUtil.mulMatrix( s0,new Matrix(x2));
+126: 		for (int i = 0; i < n; i++) {
+127: 			for (int j =0; j <n; j++) {
+128: 				sdoku[i+2*n][j]=s6.getMatrix()[i][j];
+129: 			}
+130: 		}
+131: 	}
+132: 	public void makeS7(){
+133: 		Matrix s0=new Matrix(basic);
+134: 		Matrix s1=MatrixUtil.mulMatrix( new Matrix(x2),s0);
+135: 		Matrix s7=MatrixUtil.mulMatrix( s1,new Matrix(x2));
+136: 		for (int i = 0; i < n; i++) {
+137: 			for (int j =0; j <n; j++) {
+138: 				sdoku[i+2*n][j+n]=s7.getMatrix()[i][j];
+139: 			}
+140: 		}
+141: 	}
+142: 	public void makeS8(){
+143: 		Matrix s0=new Matrix(basic);
+144: 		Matrix s1=MatrixUtil.mulMatrix( new Matrix(x1),s0);
+145: 		Matrix s8=MatrixUtil.mulMatrix( s1,new Matrix(x2));
+146: 		for (int i = 0; i < n; i++) {
+147: 			for (int j =0; j <n; j++) {
+148: 				sdoku[i+2*n][j+2*n]=s8.getMatrix()[i][j];
+149: 			}
+150: 		}
+151: 	}
+152: 	public void print2(){
+153: 		System.out.println(new Matrix(sdoku));
+154: 	}
+155: 	public void print(){
+156: 		StringBuffer sb=new StringBuffer();
+157: 		for (int i = 0; i < sdoku.length; i++) {
+158: 			sb.append("[\t");
+159: 			for (int j = 0; j < sdoku[i].length; j++) {
+160: 				sb.append((int)sdoku[i][j]+"\t");
+161: 			}
+162: 			sb.append("]");
+163: 			sb.append("\n");
+164: 		}
+165: 		System.out.println(sb.toString());
+166: 	}
+167: }

@@ -1,0 +1,31 @@
+01: package kr.co.infopub.chapter.s138;
+02: public class HyoBaseballMain {
+03:  public static void main(String[] args) {
+04: 	Pitcher pit=new Pitcher();      // 공 던지는 투수
+05: 	Hitter hit=new Hitter();        // 공 치는 타자
+06: 	Umpire ump=new Umpire();        // 스트라이크, 볼 심판
+07: 	int iterCount=0;                // 10번 이내에 끝내기
+08: 	pit.make();                     // 공 던지기
+09: 	ump.setPitBall(pit.getGong());  // 심판에게 투수공 넣기
+10: 	System.out.println("Play Base Ball~~~~~~~");
+11: 	while(true){
+12: 		iterCount++;
+13: 		hit.make();           // 타자 - 공맞추기
+14: 		System.out.printf("%d번째 입려한 공 : %d,%d,%d\n",
+15: 			 iterCount,hit.getGong()[0],hit.getGong()[1],hit.getGong()[2]);
+16: 		ump.setHitBall(hit.getGong());  // 심판에게 타자공 넣기
+17: 		int strike=ump.strike();
+18: 		int ball=ump.ball();
+19: 		System.out.printf("%d번째  %dstrike %dball\n",iterCount,strike, ball);
+20: 		if(iterCount<10 && strike==3){   // 3 스트라이크- 모두 맞춤
+21: 			System.out.println("You Win!!");
+22: 			break;
+23: 		}else if(iterCount>=10 && strike<3){
+24: 			System.out.println("You Lose!!");
+25: 			System.out.printf("투수 : %d,%d,%d\n",
+26: 					   pit.getGong()[0],pit.getGong()[1],pit.getGong()[2]);
+27: 			break;
+28: 		}
+29: 	}
+30:  }
+31: }

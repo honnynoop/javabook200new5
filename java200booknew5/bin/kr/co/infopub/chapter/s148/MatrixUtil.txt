@@ -1,0 +1,115 @@
+001: package kr.co.infopub.chapter.s135;
+002: 
+003: public class MatrixUtil {
+004: 	public static Matrix addMatrix(Matrix a, Matrix b){
+005: 		int m=a.getMatrix().length;
+006: 		int n=a.getMatrix()[0].length;
+007: 		double [][]c=new double[m][n];
+008: 		for (int i = 0; i < c.length; i++) {
+009: 			for (int j = 0; j < c[i].length; j++) {
+010: 				c[i][j]=a.getMatrix()[i][j]+b.getMatrix()[i][j];
+011: 			}
+012: 		}
+013: 		return new Matrix(c);
+014: 	}//
+015: 	public static Matrix diffMatrix(Matrix a, Matrix b){
+016: 		int m=a.getMatrix().length;
+017: 		int n=a.getMatrix()[0].length;
+018: 		double [][]c=new double[m][n];
+019: 		for (int i = 0; i < c.length; i++) {
+020: 			for (int j = 0; j < c[i].length; j++) {
+021: 				c[i][j]=a.getMatrix()[i][j]-b.getMatrix()[i][j];
+022: 			}
+023: 		}
+024: 		return new Matrix(c);
+025: 	}//
+026: 	public static Matrix mulMatrix(Matrix a, Matrix b){
+027: 		int m=a.getMatrix().length;
+028: 		int n=a.getMatrix()[0].length;//n==0 
+029: 		//int o=b.getMatrix().length;
+030: 		int p=b.getMatrix()[0].length;
+031: 		double [][]c=new double[m][p];
+032: 		for (int i = 0; i < m; i++) {
+033: 			for (int j = 0; j < p; j++) {
+034: 				for (int k = 0; k < n; k++) {
+035: 					c[i][j]+=a.getMatrix()[i][k]*b.getMatrix()[k][j];
+036: 				}
+037: 			}
+038: 		}
+039: 		return new Matrix(c);
+040: 	}//
+041: 	public static Matrix revMatrix(Matrix a){
+042: 		
+043: 		double [][] matricex=a.getMatrix();//±íÀº º¹»ç
+044: 		double [][] matrices=new double[matricex.length][matricex[0].length*2];
+045: 		
+046: 		for (int i = 0; i < matricex.length; i++) {
+047: 			for (int j = 0; j < matricex[i].length; j++) {
+048: 				matrices[i][j]=matricex[i][j];
+049: 			}
+050: 		}
+051: 		for (int i = 0; i < matricex.length; i++) {
+052: 			matrices[i][i+matricex[i].length]=1.0;
+053: 		}
+054: 		int row=matrices.length;
+055: 		int col=matrices[0].length;//n==0 
+056: 		for (int k = 0; k <row; k++) {
+057: 			double max=0.0;
+058: 			int pivotRow=k;
+059: 			for (int j = k; j < row; j++) {
+060: 				double tempMax=Math.abs(matrices[j][k]);
+061: 				if(max<tempMax){
+062: 					max=tempMax;
+063: 					pivotRow=j;
+064: 				}
+065: 			}
+066: 			if(k!=pivotRow){
+067: 				for (int j = 0; j <col; j++) {
+068: 					double temp=matrices[k][j];
+069: 					matrices[k][j]=matrices[pivotRow][j];
+070: 					matrices[pivotRow][j]=temp;
+071: 				}
+072: 			}//pivot 
+073: 			double pivot=matrices[k][k];
+074: 			
+075: 			for (int j = k; j <col; j++) {
+076: 				matrices[k][j]/=pivot;
+077: 			}
+078: 			for (int i = 0; i < row; i++) {
+079: 				if(i!=k){
+080: 					double delta=matrices[i][k];
+081: 					for (int j = k; j <col; j++) {
+082: 						matrices[i][j]-=delta*matrices[k][j];
+083: 					}
+084: 				}
+085: 			}
+086: 		}
+087: 		//System.out.println(matrices);
+088: 		double [][] results=new double[matricex.length][matricex.length];
+089: 		for (int i = 0; i < matricex.length; i++) {
+090: 			for (int j = 0; j < matricex[i].length; j++) {
+091: 				results[i][j]=matrices[i][j+matricex[i].length];
+092: 			}
+093: 		}
+094: 		return new Matrix(results);
+095: 	}//
+096: 	public static Matrix toTwoOne(Matrix a){
+097: 		int m=a.getMatrix().length;
+098: 		int n=a.getMatrix()[0].length;
+099: 		double [][]c=new double[1][m*n];
+100: 		for (int i = 0; i < m; i++) {
+101: 			for (int j = 0; j < n; j++) {
+102: 				c[0][i*n+j]=a.getMatrix()[i][j];
+103: 			}
+104: 		}
+105: 		return new Matrix(c);
+106: 	}
+107: 	public static Matrix toOneTwo(Matrix a, int m, int n){
+108: 		int l=a.getMatrix()[0].length;
+109: 		double [][]c=new double[m][n];
+110: 		for (int i = 0; i < l; i++) {
+111: 			c[i/n][i%n]=a.getMatrix()[0][i];
+112: 		}
+113: 		return new Matrix(c);
+114: 	}
+115: }

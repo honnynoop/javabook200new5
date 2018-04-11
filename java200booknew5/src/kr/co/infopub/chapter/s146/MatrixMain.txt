@@ -1,0 +1,21 @@
+01: package kr.co.infopub.chapter.s133;
+02: // 행렬연산
+03: public class MatrixMain {
+04: 	public static void main(String[] args) {
+05: 		double [][] basic={{1,2,3},{4,5,6},{7,8,9}};
+06: 		Matrix s0=new Matrix(basic);
+07: 		s0.print();
+08: 		double [][] x2={{0,1,0},{0,0,1},{1,0,0}};
+09: 		double [][] x1={{0,0,1},{1,0,0},{0,1,0}};
+10: 		
+11: 		Matrix mx2=new Matrix(x2);
+12: 		Matrix mx1=new Matrix(x1);
+13: 		
+14: 		Matrix s1=MatrixUtil.mulMatrix(mx2, s0);
+15: 		s1.print();
+16: 		Matrix s2=MatrixUtil.mulMatrix(mx1, s0);
+17: 		s2.print();
+18: 		Matrix s3=MatrixUtil.mulMatrix( s0,mx1);
+19: 		s3.print();
+20: 	}
+21: }

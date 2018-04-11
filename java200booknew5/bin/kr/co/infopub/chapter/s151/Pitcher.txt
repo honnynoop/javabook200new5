@@ -1,0 +1,52 @@
+01: package kr.co.infopub.chapter.s138;
+02: import java.util.Arrays;
+03: public class Pitcher {
+04: 	private int [] gong;
+05: 	private int n;//3
+06: 	private int num=10;
+07: 	public Pitcher() {
+08: 		this(10,3);
+09: 	}
+10: 	public Pitcher(int num,int n ) {
+11: 		super();
+12: 		this.n = n;
+13: 		this.num = num;
+14: 		gong=new int[n]; //gong 3°³
+15: 		Arrays.fill(gong, -1);
+16: 	}
+17: 	public int[] getGong() {
+18: 		return gong;
+19: 	}
+20: 	//0~9
+21: 	public int makeOne(){
+22: 		return (int)(Math.random()*num);
+23: 	}
+24: 	
+25: 	public boolean contains(int gn){
+26: 		boolean isC=false;
+27: 		for (int i = 0; i < n; i++) {
+28: 			if(gn==gong[i]){
+29: 				isC=true;
+30: 				break;
+31: 			}
+32: 		}
+33: 		return isC;
+34: 	}
+35: 	public void make(){
+36: 		Arrays.fill(gong, -1);
+37: 		int count=0;
+38: 		while(count!=n){
+39: 			int temp=makeOne();
+40: 			if( !contains(temp) ){
+41: 				gong[count++]=temp;
+42: 			}
+43: 		}
+44: 	}
+45: 	public void print(){
+46: 		System.out.println("Pitcher");
+47: 		for (int i = 0; i < n; i++) {
+48: 			System.out.printf("%d\t",gong[i]);
+49: 		}
+50: 		System.out.println();
+51: 	}
+52: }

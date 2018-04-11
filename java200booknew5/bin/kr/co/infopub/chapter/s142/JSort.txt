@@ -1,0 +1,91 @@
+01: package kr.co.infopub.chapter.s129;
+02: public class JSort {
+03: 	public static void BubbleSort(int[] n){
+04: 		for(int i=0; i<n.length-1; i++){
+05: 			for(int j=0; j<n.length-1-i; j++){
+06: 				if(n[j]>n[j+1]){
+07: 					int temp=n[j];
+08: 					n[j]=n[j+1];
+09: 					n[j+1]=temp;
+10: 				}
+11: 			}
+12: 		}
+13: 	}//버블정렬
+14: 	public static void InsertSort(int[] n){	
+15: 		for (int i = 0; i < n.length; i++) {
+16: 			int temp=n[i];
+17: 			int j=i-1;
+18: 			while(j>=0 && n[j]> temp){					//왼쪽 수가 더 클 동안 앞의 값을 바로 뒤의 위치에 넣어준다.
+19: 				n[j+1]=n[j];
+20: 				j--;
+21: 			}
+22: 			n[j+1]=temp;
+23: 		}
+24: 	}//삽입정렬
+25: 	public static void SelectSort(int n[]){
+26: 		for (int i = 0; i < n.length; i++) {
+27: 			int k = i;
+28: 			for(int j = i+1;j<n.length;j++){
+29: 				 if(n[j] < n[k]){
+30: 					 k = j;
+31: 				 }
+32: 			}
+33: 			int temp=n[i];
+34: 			n[i]=n[k];
+35: 			n[k]=temp;	
+36: 		}	
+37: 	}//셀렉 정렬 끝
+38: 	public static void QuickSort(int[] nn, int start, int end){
+39: 		int left =start; 
+40: 		int right=end;
+41: 		int mid=nn[(start+end)/2];
+42: 		do{
+43: 				//A
+44: 			while((nn[left]<mid) && (left < end)){
+45: 				left++;
+46: 				
+47: 			}
+48: 			while((mid<nn[right]) && (right>start)){
+49: 				right--;
+50: 			}
+51: 				//B
+52: 			if(left<=right){
+53: 				
+54: 				int temp=nn[left];			
+55: 				nn[left]=nn[right];
+56: 				nn[right]=temp;
+57: 				left++;
+58: 				right--;
+59: 			}
+60: 		}while(left<right);
+61: 		//C
+62: 		if(start<right){
+63: 			QuickSort(nn,start,right);
+64: 		}
+65: 		//D
+66: 		if(left<end){
+67: 			QuickSort(nn,left,end);
+68: 		}
+69: 	}
+70: 	public static void QuickSort(int[] n){
+71: 		QuickSort(n,0,n.length-1);
+72: 	}
+73: 	public static void ascSort(int [] n){
+74: 		int count = n.length;
+75: 		for(int i=0;i<count-1;i++){
+76: 			for(int j=0;j<count-1-i;j++){
+77: 				if(n[j] > n[j+1]){
+78: 					int temp = n[j];
+79: 					n[j] = n[j+1];
+80: 					n[j+1]=temp;
+81: 				}
+82: 			}
+83: 		}
+84: 	}
+85: 	public static void print(int []n){
+86: 		for(int i=0;i<n.length;i++){
+87: 			System.out.print(n[i]+" ");
+88: 		}
+89: 		System.out.println();
+90: 	}	
+91: }

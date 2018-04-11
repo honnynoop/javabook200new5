@@ -1,0 +1,79 @@
+01: package kr.co.infopub.chapter.s131;
+02: public class Apartment {
+03:  private char[] pass = {'0','1','2','3','4','5','6','7','8','9'}; 
+04:  private int d=0;
+05:  public Apartment(int d) {
+06: 	this.d = d;
+07:  }
+08:  public  int findApart(char region[][] , int x, int y, char step, int depth){
+09: 	int count=0;
+10: 	int right=region.length;
+11: 	int bottom=region[0].length;
+12: 	if (x < 0 || x >= bottom || y < 0 || y >= right || region[y][x] != '*') {
+13: 		return 0;
+14: 	}
+15: 	region[y][x] = pass[depth % 10];// 0~9를 반복표시 아파트 세는 과정
+16:     count = 1 + findApart(region, x, y - 1, step, depth + 1)
+17:           + findApart(region, x + 1, y, step, depth + 1)
+18:           + findApart(region, x, y + 1, step, depth + 1)
+19:           + findApart(region, x - 1, y, step, depth + 1);
+20:     if(d>0){  // 대각선도 같은 아파트단지로 인정
+21:     	  count+= findApart(region, x + 1, y - 1, step, depth + 1)   
+22:     	  + findApart(region, x + 1, y + 1, step, depth + 1)
+23:     	  + findApart(region, x - 1, y + 1, step, depth + 1)
+24:     	  + findApart(region, x - 1, y - 1, step, depth + 1);
+25:     }
+26:     region[y][x] = step;
+27:     print(region);
+28:     return count;
+29:  }
+30:  public static void print(char c[][]){
+31: 	for (int i = 0; i < c.length; i++) {
+32: 		for (int j = 0; j < c[i].length; j++) {
+33: 			System.out.printf("%c",c[i][j]);
+34: 		}
+35: 		System.out.println();
+36: 	}
+37: 	System.out.println("---------------------");
+38:  }
+39:  public static void main(String[] args) {
+40: 	 int d=0;  //d=0 대각선 인정-같은 단지, 대각선 불인정 d=1-다른 단지
+41: 	 Apartment apt=new Apartment(d);
+42: //	 char region[][]={ 
+43: //				  { '*','0','0'},
+44: //				  { '0','*','0'},
+45: //				  { '0','*','*'}
+46: //				  };
+47: 	  char region[][]={ 
+48: 			  { '0','0','0','0','0','0','0','0'},
+49: 			  { '0','0','0','*','*','0','*','0'},
+50: 			  { '0','*','0','0','*','0','*','0'},
+51: 			  { '0','*','0','0','*','0','*','*'},
+52: 			  { '0','*','0','0','0','*','0','*'},
+53: 			  { '0','*','*','0','*','0','0','*'},
+54: 			  { '0','0','*','0','*','0','0','*'},
+55: 			  { '*','*','0','*','*','0','0','0'}
+56: 			  };
+57: 	  int right=region.length;
+58: 	  int bottom=region[0].length;
+59: 	  int count=0;
+60: 	  char steps[] = new char[26];   //A단지, B단지, .... 26단지 이하
+61: 	  for (int i = 0; i < steps.length; i++) {
+62: 		steps[i]=(char)('A'+i);
+63: 	  }
+64: 	  int []sizes=new int[bottom*right];  //단지내 아파트 수
+65: 	  int blocknums=0;  //단지 수
+66: 	  for (int iy = 0; iy < right; ++iy){
+67: 		    for (int ix = 0; ix < bottom; ++ix) {
+68: 		         count = apt.findApart(region, ix, iy, steps[blocknums], 0);
+69: 			     if (count>0) {
+70: 				    sizes[blocknums++] = count;
+71: 			     }
+72: 			}
+73: 	  }
+74: 	  System.out.printf("아파트 단지= %d개\n", blocknums);
+75: 	  for (int ix = 0; ix < blocknums; ++ix){
+76: 		  System.out.printf("%c 단지  = 아파트 %d개\n", steps[ix], sizes[ix]);
+77: 	  }
+78:  }
+79: }

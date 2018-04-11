@@ -1,0 +1,45 @@
+01: package kr.co.infopub.chapter.s138;
+02: import java.util.Arrays;
+03: public class Umpire {
+04: 	private int [] pitBall;
+05: 	private int [] hitBall;
+06: 	private int n;
+07: 	public Umpire(int n) {
+08: 		this.n=n;
+09: 		pitBall=new int[n];
+10: 		hitBall=new int[n];
+11: 		Arrays.fill(pitBall, -1);
+12: 		Arrays.fill(hitBall, -1);
+13: 	}
+14: 	public Umpire() {
+15: 		this(3);
+16: 	}
+17: 	public void setPitBall(int[] pitBall) {
+18: 		System.arraycopy(pitBall, 0,
+19: 				this.pitBall, 0, pitBall.length);
+20: 	}
+21: 	public void setHitBall(int[] hitBall) {
+22: 		System.arraycopy(hitBall, 0,
+23: 				this.hitBall, 0, hitBall.length);
+24: 	}
+25: 	public int strike(){
+26: 		int count=0;
+27: 		for (int i = 0; i < n; i++) {
+28: 			if(pitBall[i]==hitBall[i]){
+29: 				count++;
+30: 			}
+31: 		}
+32: 		return count;
+33: 	}
+34: 	public int ball(){
+35: 		int count=0;
+36: 		for (int i = 0; i < n; i++) {
+37: 			for (int j = 0; j < n; j++) {
+38: 				if(i!=j && pitBall[i]==hitBall[j]){
+39: 					count++;
+40: 				}
+41: 			}
+42: 		}
+43: 		return count;
+44: 	}
+45: }

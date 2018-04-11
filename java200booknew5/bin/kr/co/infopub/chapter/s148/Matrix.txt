@@ -1,0 +1,60 @@
+01: package kr.co.infopub.chapter.s135;
+02: import java.util.Arrays;
+03: public class Matrix {
+04: 	private double [][] matrix;
+05: 	public Matrix(int m, int n) {
+06: 		matrix=new double[m][n];
+07: 	}
+08: 	public Matrix() {
+09: 		this(3,3);
+10: 	}
+11: 	public Matrix(Matrix mat) {
+12: 		this(mat.getMatrix());
+13: 	}
+14: 	public Matrix(double[][] deep) {
+15: 		matrix=deepCopy(deep);
+16: 	}
+17: 	public  void clear(){
+18: 		int m=matrix.length;
+19: 		for (int i = 0; i < m; i++) {
+20: 			Arrays.fill(matrix[i], 0);
+21: 		}
+22: 	}
+23: 	private double[][] deepCopy(double[][] deep){
+24: 		int m=deep.length;
+25: 		int n=deep[0].length;
+26: 		double[][] paste=new double[m][n];
+27: 		for (int i = 0; i <m; i++) {
+28: 			System.arraycopy(deep[i], 0, paste[i], 0, n);
+29: 		}
+30: 		return paste;
+31: 	}
+32: 	public double[][] getMatrix() {
+33: 		return deepCopy(matrix);
+34: 	}
+35: 	
+36: 	public Matrix makeMatrix(){
+37: 		return new Matrix(matrix);
+38: 	}
+39: 	@Override
+40: 	public String toString() {
+41: 		StringBuffer sb=new StringBuffer();
+42: 		for (int i = 0; i < matrix.length; i++) {
+43: 			sb.append("[");
+44: 			for (int j = 0; j < matrix[i].length; j++) {
+45: 				sb.append(matrix[i][j]+"\t");
+46: 			}
+47: 			sb.append("]");
+48: 			sb.append("\n");
+49: 		}
+50: 		return sb.toString();
+51: 	}
+52: 	public void print(){
+53: 		for (int i = 0; i < matrix.length; i++) {
+54: 			for (int j = 0; j < matrix[i].length; j++) {
+55: 				System.out.printf("%f\t",matrix[i][j]);
+56: 			}
+57: 			System.out.println();
+58: 		}
+59: 	}
+60: }

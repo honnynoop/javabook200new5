@@ -1,0 +1,39 @@
+01: package kr.co.infopub.chapter.s138;
+02: import java.util.Arrays;
+03: import java.util.Scanner;
+04: public class Hitter {
+05: 	private int [] gong;
+06: 	private int n;//3
+07: 	private int num=10;
+08: 	public Hitter() {
+09: 		this(10,3);
+10: 	}
+11: 	public Hitter(int num,int n ) {
+12: 		this.n = n;
+13: 		this.num = num;
+14: 		gong=new int[n]; //gong 3개
+15: 		Arrays.fill(gong, -1);
+16: 	}
+17: 	public int[] getGong() {
+18: 		return gong;
+19: 	}
+20: 	public void make(){
+21: 		// 과제 => 서로 다르도록 하시오
+22: 		System.out.println(
+23: 				"0~9 사이의 서로 다른 정수를 붙여서 입력해 주세요. 예)123");
+24: 		Scanner scan=new Scanner(System.in);
+25: 		String s=scan.nextLine();
+26: 		//123
+27: 		for (int i = 0; i < n; i++) {
+28: 			gong[i]=s.charAt(i)-'0';   //'1'-'0'
+29: 		}
+30: 		
+31: 	}
+32: 	public void print(){
+33: 		System.out.println("Hitter");
+34: 		for (int i = 0; i < n; i++) {
+35: 			System.out.printf("%d\t",gong[i]);
+36: 		}
+37: 		System.out.println();
+38: 	}
+39: }

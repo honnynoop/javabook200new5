@@ -1,0 +1,113 @@
+001: package kr.co.infopub.chapter.s134;
+002: // 행렬연산 역행렬
+003: public class MatrixUtil {
+004:  public static Matrix addMatrix(Matrix a, Matrix b){
+005: 	int m=a.getMatrix().length;
+006: 	int n=a.getMatrix()[0].length;
+007: 	double [][]c=new double[m][n];
+008: 	for (int i = 0; i < c.length; i++) {
+009: 		for (int j = 0; j < c[i].length; j++) {
+010: 			c[i][j]=a.getMatrix()[i][j]+b.getMatrix()[i][j];
+011: 		}
+012: 	}
+013: 	return new Matrix(c);
+014:  }//
+015:  public static Matrix diffMatrix(Matrix a, Matrix b){
+016: 	int m=a.getMatrix().length;
+017: 	int n=a.getMatrix()[0].length;
+018: 	double [][]c=new double[m][n];
+019: 	for (int i = 0; i < c.length; i++) {
+020: 		for (int j = 0; j < c[i].length; j++) {
+021: 			c[i][j]=a.getMatrix()[i][j]-b.getMatrix()[i][j];
+022: 		}
+023: 	}
+024: 	return new Matrix(c);
+025:  }//
+026:  public static Matrix mulMatrix(Matrix a, Matrix b){
+027: 	int m=a.getMatrix().length;
+028: 	int n=a.getMatrix()[0].length; 
+029: 	int p=b.getMatrix()[0].length;
+030: 	double [][]c=new double[m][p];
+031: 	for (int i = 0; i < m; i++) {
+032: 		for (int j = 0; j < p; j++) {
+033: 			for (int k = 0; k < n; k++) {
+034: 				c[i][j]+=a.getMatrix()[i][k]*b.getMatrix()[k][j];
+035: 			}
+036: 		}
+037: 	}
+038: 	return new Matrix(c);
+039:  }//
+040:  // Gaus 소거법 -역행렬
+041:  public static Matrix revMatrix(Matrix a){
+042: 	double [][] matricex=a.getMatrix();//깊은 복사
+043: 	double [][] matrices=new double[matricex.length][matricex[0].length*2];
+044: 	
+045: 	for (int i = 0; i < matricex.length; i++) {
+046: 		for (int j = 0; j < matricex[i].length; j++) {
+047: 			matrices[i][j]=matricex[i][j];
+048: 		}
+049: 	}
+050: 	for (int i = 0; i < matricex.length; i++) {
+051: 		matrices[i][i+matricex[i].length]=1.0;
+052: 	}
+053: 	int row=matrices.length;
+054: 	int col=matrices[0].length;//n==0 
+055: 	for (int k = 0; k <row; k++) {
+056: 		double max=0.0;
+057: 		int pivotRow=k;
+058: 		for (int j = k; j < row; j++) {
+059: 			double tempMax=Math.abs(matrices[j][k]);
+060: 			if(max<tempMax){
+061: 				max=tempMax;
+062: 				pivotRow=j;
+063: 			}
+064: 		}
+065: 		if(k!=pivotRow){
+066: 			for (int j = 0; j <col; j++) {
+067: 				double temp=matrices[k][j];
+068: 				matrices[k][j]=matrices[pivotRow][j];
+069: 				matrices[pivotRow][j]=temp;
+070: 			}
+071: 		}//pivot 
+072: 		double pivot=matrices[k][k];
+073: 		for (int j = k; j <col; j++) {
+074: 			matrices[k][j]/=pivot;      // 1로 만들기
+075: 		}
+076: 		for (int i = 0; i < row; i++) {
+077: 			if(i!=k){
+078: 				double delta=matrices[i][k];
+079: 				for (int j = k; j <col; j++) {
+080: 					matrices[i][j]-=delta*matrices[k][j];
+081: 				}
+082: 			}
+083: 		}
+084: 	}
+085: 	//System.out.println(matrices);
+086: 	double [][] results=new double[matricex.length][matricex.length];
+087: 	for (int i = 0; i < matricex.length; i++) {
+088: 		for (int j = 0; j < matricex[i].length; j++) {
+089: 			results[i][j]=matrices[i][j+matricex[i].length];
+090: 		}
+091: 	}
+092: 	return new Matrix(results);
+093:  }//
+094:  public static Matrix toTwoOne(Matrix a){
+095: 	int m=a.getMatrix().length;
+096: 	int n=a.getMatrix()[0].length;
+097: 	double [][]c=new double[1][m*n];
+098: 	for (int i = 0; i < m; i++) {
+099: 		for (int j = 0; j < n; j++) {
+100: 			c[0][i*n+j]=a.getMatrix()[i][j];
+101: 		}
+102: 	}
+103: 	return new Matrix(c);
+104:  }
+105:  public static Matrix toOneTwo(Matrix a, int m, int n){
+106: 	int l=a.getMatrix()[0].length;
+107: 	double [][]c=new double[m][n];
+108: 	for (int i = 0; i < l; i++) {
+109: 		c[i/n][i%n]=a.getMatrix()[0][i];
+110: 	}
+111: 	return new Matrix(c);
+112:  }
+113: }
